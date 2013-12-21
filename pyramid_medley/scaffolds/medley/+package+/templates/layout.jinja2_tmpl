@@ -53,7 +53,10 @@
     <div class="container">
         {% for queue in ['success', 'info', 'warning', 'danger'] %}
         {% for message in request.session.pop_flash(queue) %}
-        <div class="alert alert-\{\{ queue \}\}">\{\{ message \}\}</div>
+        <div class="alert alert-\{\{ queue \}\} alert-dismissable">
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            \{\{ message \}\}
+        </div>
         {% endfor %}
         {% endfor %}
     </div>
