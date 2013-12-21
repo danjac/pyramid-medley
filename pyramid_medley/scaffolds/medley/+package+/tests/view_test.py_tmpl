@@ -3,7 +3,7 @@ import mock
 from pyramid import testing
 
 from pyramid_mailer.mailer import DummyMailer
-from pyramid_storage.storage import DummyFileStorage
+from pyramid_storage.testing import DummyFileStorage
 
 from webob.multidict import MultiDict
 
