@@ -1,0 +1,54 @@
+from wtforms import Form 
+from wtforms.ext.csrf.form import SecureForm
+
+
+class BaseForm(object):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        if 'obj' in kwargs:
+            self._obj = kwargs['obj']  # for unique validators
+        self.action = kwargs.pop('action', self.request.current_route_url())
+        super(BaseForm, self).__init__(self.request.POST, *args, **kwargs)
+
+    def handle(self):
+        if self.request.method == 'POST':
+            if self.validate():
+                return True
+            self.request.session.flash('Your form contains errors', 'warning')
+            self.request.response.status_int = 400
+        return False
+
+    def __json__(self, request):
+        return {'errors': self.errors, 'data': self.data}
+
+    @property
+    def is_multipart(self):
+        for field in self:
+            if field.type == 'FileField':
+                return True
+        return False
+
+    @property
+    def hidden_fields(self):
+        return [field for field in self 
+                if getattr(field.widget, 'input_type', None) == 'hidden']
+
+    @property
+    def submit_fields(self):
+        return [field for field in self if field.type == 'SubmitField']
+
+    @property
+    def editable_fields(self):
+        non_editable_fields = self.hidden_fields + self.submit_fields
+        return [field for field in self if field not in non_editable_fields]   
+    
+
+class Form(BaseForm, Form):
+    pass
+
+
+class SecureForm(BaseForm, SecureForm):
+
+    def generate_csrf_token(self, csrf_context):
+        return self.request.session.get_csrf_token()
+

@@ -1,0 +1,92 @@
+import os
+import sys
+import datetime
+import functools
+import logging
+
+from pyramid.paster import bootstrap
+
+log = logging.getLogger('crons')
+
+_crons = set()
+
+EVERY_5_MINS = tuple(range(0, 60, 5))
+EVERY_10_MINS = tuple(range(0, 60, 10))
+EVERY_15_MINS = tuple(range(0, 60, 15))
+EVERY_HOUR = tuple(range(24))
+EVERY_WEEKDAY = tuple(range(1, 6))
+
+
+class job(object):
+    """
+    Examples:
+
+    # run at 12 midday every day
+    @job(hour=12)
+    def do_something(env):
+        pass
+
+    # run every 5 mins during weekdays
+    @job(days=EVERY_WEEKDAY, minutes=EVERY_5_MINS)
+    def do_something_a_lot(env):
+        pass
+    """
+
+    def __init__(self, day=None, hour=None, minute=None,
+                 days=(), hours=(), minutes=()):
+
+        self.days = days
+        self.hours = hours
+        self.minutes = minutes
+
+        if day is not None:
+            self.days += (day,)
+
+        if hour is not None:
+            self.hours += (hour,)
+
+        if minute is not None:
+            self.minutes += (minute,)
+
+    def __call__(self, func):
+
+        @functools.wraps(func)
+        def wrapper(env):
+            if self.run_now(func):
+                try:
+                    func(env)
+                except Exception as e:
+                    log.exception(e)
+        _crons.add(wrapper)
+        return wrapper
+
+    def run_now(self, func):
+        now = datetime.datetime.now()
+        if self.days and now.weekday() not in self.days:
+            return False
+
+        if self.hours and now.hour not in self.hours:
+            return False
+
+        if self.minutes and now.minute not in self.minutes:
+            return False
+
+        return True
+
+
+
+def usage(argv):
+    cmd = os.path.basename(argv[0])
+    print('usage: %s <config_uri>\n'
+          '(example: "%s development.ini")' % (cmd, cmd))
+    sys.exit(1)
+
+
+def main(argv=sys.argv):
+    if len(argv) != 2:
+        usage(argv)
+
+    config_uri = argv[1]
+    env = bootstrap(config_uri)
+    for cron in _crons:
+        cron.run(env)

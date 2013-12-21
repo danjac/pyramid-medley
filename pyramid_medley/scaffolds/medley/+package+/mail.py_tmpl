@@ -1,0 +1,31 @@
+from pyramid.renderers import render
+
+from pyramid_mailer import get_mailer
+from pyramid_mailer.message import Message
+
+
+def get_templated_mail(request, subject, recipients, sender,
+                       context=None, text_template=None, html_template=None, 
+                       **kwargs):
+
+    context = context or {}
+    if not text_template:
+        raise ValueError("text_template required")
+
+    message = Message(subject, recipients, sender)
+    message.body = render(text_template, context, request)
+
+    if html_template:
+        message.html = render(html_template, context, request)
+
+    return message
+
+
+def send_templated_mail(request, *args, **kwargs):
+    return request.mailer.send(get_templated_mail(request, *args, **kwargs))
+
+
+def includeme(config):
+    config.add_request_method(get_mailer, 'mailer', True)
+    config.add_request_method(get_templated_mail, 'get_templated_mail')
+    config.add_request_method(send_templated_mail, 'send_templated_mail')

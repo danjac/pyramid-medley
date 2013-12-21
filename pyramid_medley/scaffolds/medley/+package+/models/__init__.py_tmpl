@@ -1,0 +1,69 @@
+from sqlalchemy import (
+    Column,
+    Unicode,
+    String,
+    Boolean,
+)
+
+
+from sqlalchemy.ext.hybrid import hybrid_property
+
+from passlib.hash import bcrypt
+
+from .base import DBSession, Base, BaseQuery
+
+
+def encrypt_password(password):
+    return
+
+
+def check_password(password, encrypted):
+    try:
+        return bcrypt.verify(password, encrypted)
+    except TypeError:
+        return False
+
+
+class UserQuery(BaseQuery):
+
+    def active(self):
+        return self.filter_by(is_active=True)
+
+    def staff(self):
+        return self.filter_by(is_admin=True)
+
+    def authenticate(self, email, password):
+        user = self.active().filter(User.email == email).first()
+        if user and user.check_password(password):
+            return user
+
+
+class User(Base):
+
+    query = DBSession.query_property(UserQuery)
+
+    __tablename__ = 'users'
+
+    first_name = Column(Unicode(30))
+    last_name = Column(Unicode(30))
+    email = Column(String(180), unique=True)
+    encrypted_password = Column('password', String(30))
+    is_admin = Column(Boolean, default=False)
+    is_active = Column(Boolean, default=True)
+
+    def __str__(self):
+        return self.email
+
+    @hybrid_property
+    def password(self):
+        return self.encrypted_password
+
+    @password.setter
+    def set_password(self, password):
+        self.encrypted_password = bcrypt.encrypt(password)
+
+    def check_password(self, password):
+        try:
+            return bcrypt.verify(password, self.password)
+        except TypeError:
+            return False

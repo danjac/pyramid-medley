@@ -1,0 +1,25 @@
+import decimal
+
+DATE_FORMAT = "%d/%m/%Y"
+NUM_PLACES = decimal.Decimal(10) ** -2
+
+
+def format_date(value, default='', format=DATE_FORMAT):
+    return value.strftime(DATE_FORMAT) if value else default
+
+
+def format_currency(value, default='0.00'):
+    return value.quantize(NUM_PLACES) if value else default
+
+
+def includeme(config):
+    # if variable is None print '' instead of 'None'
+    def _silent_none(value):
+        if value is None:
+            return ''
+        return value
+
+    env = config.get_jinja2_environment()
+    env.finalize = _silent_none
+    env.filters['dateformat'] = format_date
+    env.filters['moneyformat'] = format_currency
