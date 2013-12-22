@@ -53,7 +53,7 @@
         {{ field(**kwargs) }}
         </div>
         {% for error in field.errors %}
-        <span class="help-block">{{ error }}
+        <span class="help-block">{{ error }}</span>
         {% endfor %}
    </div>
 {% endmacro %}
@@ -63,7 +63,7 @@
 <div class="checkbox"{% if field.errors %} has-error{% endif %}">
     <label>{{ field(**kwargs) }} {{ label or field.label.text }}</label>
     {% for error in field.errors %}
-    <span class="help-block">{{ error }}
+    <span class="help-block">{{ error }}</span>
     {% endfor %}
 </div>
 {% endmacro %}
