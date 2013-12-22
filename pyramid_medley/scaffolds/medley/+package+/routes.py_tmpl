@@ -6,6 +6,12 @@ from pyramid.httpexceptions import HTTPSeeOther
 from .resources import ModelResource
 
 
+def add_routes(config):
+
+    ###### ADD YOUR ROUTES HERE ######
+    config.add_route('home', '/')
+
+
 def includeme(config):
 
     config.add_request_method(seeother, 'seeother')
@@ -16,9 +22,7 @@ def includeme(config):
 
     config.add_static_view('static', 'static', cache_max_age=3600)
 
-    ###### ADD YOUR ROUTES HERE ######
-
-    config.add_route('home', '/')
+    add_routes(config)
 
 
 def seeother(request, route_name, *args, **kwargs):
