@@ -40,6 +40,7 @@ class job(object):
         self.days = days
         self.hours = hours
         self.minutes = minutes
+        minute = minute or 0
 
         if day is not None:
             self.days += (day,)
@@ -47,8 +48,7 @@ class job(object):
         if hour is not None:
             self.hours += (hour,)
 
-        if minute is not None:
-            self.minutes += (minute,)
+        self.minutes += (minute,)
 
     def __call__(self, func):
 
@@ -64,13 +64,13 @@ class job(object):
 
     def run_now(self, func):
         now = datetime.datetime.now()
-        if self.days and now.weekday() not in self.days:
+        if self.days is not None and now.weekday() not in self.days:
             return False
 
-        if self.hours and now.hour not in self.hours:
+        if self.hours is not None and now.hour not in self.hours:
             return False
 
-        if self.minutes and now.minute not in self.minutes:
+        if now.minute not in self.minutes:
             return False
 
         return True
