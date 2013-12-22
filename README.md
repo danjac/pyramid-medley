@@ -7,6 +7,12 @@ It includes:
 * WTForms
 * Twitter Bootstrap
 
+The scaffolding also includes some extra goodies for example:
+
+* Templated emails 
+* Basic User model
+* Simple cronjobs framework
+
 Quick install
 -------------
 

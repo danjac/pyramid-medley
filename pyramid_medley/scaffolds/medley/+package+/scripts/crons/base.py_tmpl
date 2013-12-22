@@ -11,7 +11,6 @@ _jobs = set()
 EVERY_5_MINS = tuple(range(0, 60, 5))
 EVERY_10_MINS = tuple(range(0, 60, 10))
 EVERY_15_MINS = tuple(range(0, 60, 15))
-EVERY_HOUR = tuple(range(24))
 
 WORKING_DAYS = tuple(range(1, 6))
 WEEKENDS = (0, 6)
@@ -117,7 +116,7 @@ class job(object):
 class hourly(job):
 
     def __init__(self, *args, **kwargs):
-        super(hourly, self).__init__(hours=EVERY_HOUR, *args, **kwargs)
+        super(hourly, self).__init__(minute=0, *args, **kwargs)
 
 
 class weekdays(job):

@@ -26,6 +26,7 @@ requires = [
     'pytest',
     'factory_boy',
     'mock',
+    'freezegun',
     'passlib',
     'py-bcrypt',
     'transaction',
