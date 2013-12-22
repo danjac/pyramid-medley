@@ -12,7 +12,9 @@ EVERY_5_MINS = tuple(range(0, 60, 5))
 EVERY_10_MINS = tuple(range(0, 60, 10))
 EVERY_15_MINS = tuple(range(0, 60, 15))
 EVERY_HOUR = tuple(range(24))
-EVERY_WEEKDAY = tuple(range(1, 6))
+
+WORKING_DAYS = tuple(range(1, 6))
+WEEKENDS = (0, 6)
 
 
 def get_jobs():
@@ -29,45 +31,70 @@ class job(object):
         pass
 
     # run every 5 mins during weekdays
-    @job(days=EVERY_WEEKDAY, minutes=EVERY_5_MINS)
+    @job(days=WEEKDAYS, minutes=EVERY_5_MINS)
     def do_something_a_lot(env):
         pass
+
+    # the above
     """
 
-    def __init__(self, day=None, hour=None, minute=None,
-                 days=(), hours=(), minutes=()):
+    def __init__(self, months=None, day=None, weekday=None, hour=None,
+                 month=None, minute=None, days=(), weekdays=(), hours=(),
+                 minutes=()):
 
+        self.months = months
         self.days = days
+        self.weekdays = weekdays
         self.hours = hours
         self.minutes = minutes
 
-        if not self.minutes:
-            minute = 0
+        if month is not None:
+            self.months = (month, )
 
         if day is not None:
-            self.days = (day,)
+            self.days = (day, )
+
+        if weekday is not None:
+            self.weekdays = (weekday, )
 
         if hour is not None:
-            self.hour = (hour,)
+            self.hours = (hours, )
 
         if minute is not None:
-            self.minute = (minute,)
+            self.minutes = (minute, )
+
+        if not self.minutes:
+            self.minutes = (0, )
+            if not self.hours:
+                self.hours = (0, )
 
     def __call__(self, func):
 
         @functools.wraps(func)
         def wrapper(env):
-            if self.run_now(func):
+            if self.run_now():
                 try:
                     func(env)
                 except Exception as e:
                     log.exception(e)
-        _jobs.add(wrapper)
+
+        self.func = wrapper
+        _jobs.add(self)
         return wrapper
 
-    def run_now(self, func):
+    def run(self, env):
+        self.func(env)
+
+    def run_now(self):
         now = datetime.datetime.now()
-        if self.days and now.weekday() not in self.days:
+
+        if self.months and now.month not in self.months:
+            return False
+
+        if self.days and now.day not in self.days:
+            return False
+
+        if self.weekdays and now.weekday() not in self.weekdays:
             return False
 
         if self.hours and now.hour not in self.hours:
@@ -77,3 +104,42 @@ class job(object):
             return False
 
         return True
+
+
+# shortcuts
+
+class hourly(job):
+
+    def __init__(self, *args, **kwargs):
+        super(hourly, self).__init__(
+            minute=0, hours=EVERY_HOUR, *args, **kwargs)
+
+
+class weekdays(job):
+
+    def __init__(self, *args, **kwargs):
+        super(weekdays, self).__init__(weekdays=WORKING_DAYS, *args, **kwargs)
+
+
+class daily(job):
+
+    def __init__(self, *args, **kwargs):
+        super(daily, self).__init__(hour=0, *args, **kwargs)
+
+
+class weekly(job):
+
+    def __init__(self, *args, **kwargs):
+        super(weekly, self).__init__(weekday=0, *args, **kwargs)
+
+
+class monthly(job):
+
+    def __init__(self, *args, **kwargs):
+        super(monthly, self).__init__(day=1, *args, **kwargs)
+
+
+class annually(job):
+
+    def __init__(self, *args, **kwargs):
+        super(annually, self).__init__(month=1, day=1, *args, **kwargs)
