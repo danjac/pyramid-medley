@@ -48,7 +48,8 @@ class job(object):
         if hour is not None:
             self.hours += (hour,)
 
-        self.minutes += (minute,)
+        if not self.minutes:
+            self.minutes = (minute,)
 
     def __call__(self, func):
 
