@@ -1,4 +1,12 @@
-**pyramid-medley** 
+**pyramid-medley** is an opinionated Pyramid scaffold to help you get going quickly with a new project.
+
+It includes:
+
+* SQLAlchemy
+* Jinja2
+* WTForms
+* Twitter Bootstrap
+
 Quick install
 -------------
 
