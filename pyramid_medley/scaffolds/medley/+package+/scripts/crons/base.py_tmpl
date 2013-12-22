@@ -21,6 +21,11 @@ def get_jobs():
     return _jobs
 
 
+def run_jobs(env):
+    for job in get_jobs():
+        run_job(env)
+
+
 class job(object):
     """
     Examples:

@@ -3,7 +3,7 @@ import sys
 
 from pyramid.paster import bootstrap
 
-from .base import get_jobs
+from .base import run_jobs
 
 
 def usage(argv):
@@ -19,5 +19,4 @@ def main(argv=sys.argv):
 
     config_uri = argv[1]
     env = bootstrap(config_uri)
-    for job in get_jobs():
-        job(env)
+    run_jobs(env)
