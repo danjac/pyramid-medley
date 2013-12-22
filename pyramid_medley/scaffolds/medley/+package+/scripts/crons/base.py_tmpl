@@ -116,8 +116,7 @@ class job(object):
 class hourly(job):
 
     def __init__(self, *args, **kwargs):
-        super(hourly, self).__init__(
-            minute=0, hours=EVERY_HOUR, *args, **kwargs)
+        super(hourly, self).__init__(hours=EVERY_HOUR, *args, **kwargs)
 
 
 class weekdays(job):
@@ -129,7 +128,8 @@ class weekdays(job):
 class daily(job):
 
     def __init__(self, *args, **kwargs):
-        super(daily, self).__init__(hour=0, *args, **kwargs)
+        # default is always hour = midnight and minute = 0
+        super(daily, self).__init__(*args, **kwargs)
 
 
 class weekly(job):
