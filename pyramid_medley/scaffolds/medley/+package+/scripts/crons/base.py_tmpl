@@ -63,7 +63,7 @@ class job(object):
             self.weekdays = (weekday, )
 
         if hour is not None:
-            self.hours = (hours, )
+            self.hours = (hour, )
 
         if minute is not None:
             self.minutes = (minute, )
