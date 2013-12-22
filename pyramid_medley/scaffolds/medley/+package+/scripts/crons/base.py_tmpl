@@ -23,7 +23,7 @@ def get_jobs():
 
 def run_jobs(env):
     for job in get_jobs():
-        run_job(env)
+        job.run(env)
 
 
 class job(object):
@@ -113,6 +113,7 @@ class job(object):
 
 # shortcuts
 
+
 class hourly(job):
 
     def __init__(self, *args, **kwargs):
@@ -148,3 +149,5 @@ class annually(job):
 
     def __init__(self, *args, **kwargs):
         super(annually, self).__init__(month=1, day=1, *args, **kwargs)
+
+yearly = annually  # synonym
