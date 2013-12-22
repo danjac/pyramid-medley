@@ -89,4 +89,4 @@ def main(argv=sys.argv):
     config_uri = argv[1]
     env = bootstrap(config_uri)
     for cron in _crons:
-        cron.run(env)
+        cron(env)
