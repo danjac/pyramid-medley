@@ -1,4 +1,4 @@
-import datetime
+import arrow
 
 from sqlalchemy import (
     Column,
@@ -44,11 +44,11 @@ class BaseModel(object):
 
     @declared_attr
     def created_at(self):
-        return Column(ArrowType, default=datetime.datetime.now)
+        return Column(ArrowType, default=arrow.now)
 
     @declared_attr
     def updated_at(self):
-        return Column(ArrowType, onupdate=datetime.datetime.now)
+        return Column(ArrowType, onupdate=arrow.now)
 
 
 Base = declarative_base(cls=BaseModel)
