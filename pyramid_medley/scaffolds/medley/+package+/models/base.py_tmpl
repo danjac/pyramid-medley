@@ -3,7 +3,6 @@ import datetime
 from sqlalchemy import (
     Column,
     Integer,
-    DateTime,
 )
 
 from sqlalchemy.orm import (
@@ -13,6 +12,8 @@ from sqlalchemy.orm import (
 )
 
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
+
+from sqlalchemy_utils import ArrowType
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -43,11 +44,11 @@ class BaseModel(object):
 
     @declared_attr
     def created_at(self):
-        return Column(DateTime, default=datetime.datetime.now)
+        return Column(ArrowType, default=datetime.datetime.now)
 
     @declared_attr
     def updated_at(self):
-        return Column(DateTime, onupdate=datetime.datetime.now)
+        return Column(ArrowType, onupdate=datetime.datetime.now)
 
 
 Base = declarative_base(cls=BaseModel)
