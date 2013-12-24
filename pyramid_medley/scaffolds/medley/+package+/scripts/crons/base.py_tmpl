@@ -42,8 +42,8 @@ class job(object):
     # the above
     """
 
-    def __init__(self, months=None, day=None, weekday=None, hour=None,
-                 month=None, minute=None, days=(), weekdays=(), hours=(),
+    def __init__(self, month=None, day=None, weekday=None, hour=None,
+                 minute=None, months=(), days=(), weekdays=(), hours=(),
                  minutes=()):
 
         self.months = months
