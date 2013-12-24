@@ -50,7 +50,7 @@
    <div class="form-group{% if field.errors %} has-error{% endif %}">
         {{ field.label(label) }}
         <div class="controls">
-        {{ field(**kwargs) }}
+        {{ field(required=field.flags.required, **kwargs) }}
         </div>
         {% for error in field.errors %}
         <span class="help-block">{{ error }}</span>
@@ -61,7 +61,7 @@
 
 {% macro render_checkbox_field(field, label=None) %}
 <div class="checkbox"{% if field.errors %} has-error{% endif %}">
-    <label>{{ field(**kwargs) }} {{ label or field.label.text }}</label>
+    <label>{{ field(required=field.flags.required, **kwargs) }} {{ label or field.label.text }}</label>
     {% for error in field.errors %}
     <span class="help-block">{{ error }}</span>
     {% endfor %}

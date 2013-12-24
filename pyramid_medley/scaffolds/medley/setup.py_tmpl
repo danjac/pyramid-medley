@@ -21,7 +21,7 @@ requires = [
     'SQLAlchemy',
     'alembic',
     'dogpile.cache',
-    'WTForms',
+    'WTForms==2.0dev',
     'bcrypt',
     'pytest',
     'factory_boy',
@@ -54,6 +54,9 @@ setup(name='{{project}}',
       zip_safe=False,
       test_suite='{{package}}',
       install_requires=requires,
+      dependency_links=[
+          "http://github.com/wtforms/wtforms/tarball/master#egg=WTForms-2.0dev",
+      ],
       entry_points="""\
       [paste.app_factory]
       main = {{package}}:main

@@ -1,17 +1,17 @@
-from wtforms import Form 
-from wtforms.ext.csrf.form import SecureForm
+from wtforms import Form as BaseForm
+from wtforms.csrf.core import CSRF as BaseCSRF
 
 
-class BaseForm(object):
+class Form(BaseForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         if 'obj' in kwargs:
             self._obj = kwargs['obj']  # for unique validators
         self.action = kwargs.pop('action', self.request.current_route_url())
-        super(BaseForm, self).__init__(self.request.POST, *args, **kwargs)
+        super(Form, self).__init__(self.request.POST, *args, **kwargs)
 
     def handle(self):
-        if self.request.method in ('PUT', 'POST'):
+        if self.request.method == 'POST':
             if self.validate():
                 return True
             self.request.session.flash('Your form contains errors', 'warning')
@@ -30,7 +30,7 @@ class BaseForm(object):
 
     @property
     def hidden_fields(self):
-        return [field for field in self 
+        return [field for field in self
                 if getattr(field.widget, 'input_type', None) == 'hidden']
 
     @property
@@ -40,15 +40,24 @@ class BaseForm(object):
     @property
     def editable_fields(self):
         non_editable_fields = self.hidden_fields + self.submit_fields
-        return [field for field in self if field not in non_editable_fields]   
-    
-
-class Form(BaseForm, Form):
-    pass
+        return [field for field in self if field not in non_editable_fields]
 
 
-class SecureForm(BaseForm, SecureForm):
+class CSRF(BaseCSRF):
+
+    def setup_form(self, form):
+        self.request = form.request
+        return super(CSRF, self).setup_form(form)
 
     def generate_csrf_token(self, csrf_context):
         return self.request.session.get_csrf_token()
 
+
+class SecureMeta(object):
+    csrf = True
+    csrf_class = CSRF
+
+
+class SecureForm(Form):
+    class Meta(SecureMeta):
+        pass
