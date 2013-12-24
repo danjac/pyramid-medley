@@ -14,7 +14,9 @@ class Form(BaseForm):
         if self.request.method in ('POST', 'PUT'):
             if self.validate():
                 return True
-            self.request.session.flash('Your form contains errors', 'warning')
+            if not self.request.is_xhr:
+                self.request.session.flash(
+                    'Your form contains errors', 'warning')
             self.request.response.status_int = 400
         return False
 
