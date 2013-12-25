@@ -1,5 +1,3 @@
-import mock
-
 from pyramid import testing
 
 from pyramid_mailer.mailer import DummyMailer
@@ -16,9 +14,16 @@ class DummyRedirect(object):
         self.kwargs = kwargs
 
 
+class DummyRoute(object):
+
+    def __init__(self, name):
+        self.name = name
+
+
 def make_request(method='GET', post_data=None,
                  get_data=None, params=None, session=None,
-                 context=None, user=None, with_csrf=True):
+                 context=None, user=None, with_csrf=True,
+                 route_name=None):
 
     req = testing.DummyRequest(method=method)
     req.user = user
@@ -27,6 +32,7 @@ def make_request(method='GET', post_data=None,
     req.storage = DummyFileStorage()
     req.seeother = DummyRedirect
     req.mailer = DummyMailer()
+    req.matched_route = DummyRoute(route_name)
 
     if params is None:
         params = {}
@@ -47,4 +53,75 @@ def make_request(method='GET', post_data=None,
 
 def test_home(db):
     from ..views import home
-    assert home(make_request()) == {}
+    assert home(make_request())
+
+
+def test_logout():
+    from ..views import logout
+    res = logout(make_request())
+    assert res.route_name == 'home'
+
+
+def test_login_get():
+    from ..views import login
+    with testing.testConfig() as config:
+        config.add_route("login", "/login")
+        assert 'form' in login(make_request(route_name='login'))
+
+
+def test_login_post_invalid(db):
+    from ..views import login
+    data = {
+        'email': 'test@gmail.com',
+        'password': 'test',
+    }
+    with testing.testConfig() as config:
+        config.add_route("login", "/login")
+        res = login(make_request(
+            'POST',
+            post_data=data,
+            route_name='login'
+        ))
+        assert 'form' in res
+
+
+def test_login_post_valid(db):
+    from ..views import login
+    from .factories import UserFactory
+    UserFactory()
+    data = {
+        'email': 'tester@gmail.com',
+        'password': 'test',
+    }
+    with testing.testConfig() as config:
+        config.add_route("login", "/login")
+        res = login(make_request(
+            'POST',
+            post_data=data,
+            route_name='login'
+        ))
+        assert res.route_name == 'home'
+
+
+def test_signup_get():
+    from ..views import signup
+    with testing.testConfig() as config:
+        config.add_route('signup', '/signup')
+        assert 'form' in signup(make_request(route_name='signup'))
+
+
+def test_signup_post(db):
+    from ..models import User
+    from ..views import signup
+    with testing.testConfig() as config:
+        config.add_route('signup', '/signup')
+        req = make_request('POST', post_data={
+            'first_name': 'test',
+            'last_name': 'test',
+            'email': 'test@gmail.com',
+            'password': 'test',
+            'password_confirm': 'test',
+            }, route_name='signup')
+        res = signup(req)
+        assert res.route_name == 'home'
+        assert User.query.count() == 1

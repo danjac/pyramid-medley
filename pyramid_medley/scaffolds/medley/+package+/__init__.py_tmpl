@@ -9,7 +9,7 @@ from .models import DBSession, Base
 
 ENV_SETTINGS = {
     '{{project.upper()}}_SQLALCHEMY_URL': 'sqlalchemy.url',
-    '{{project.upper()}}_SECRET': 'myapp.secret',
+    '{{project.upper()}}_SECRET': '{{project}}.secret',
 }
 
 

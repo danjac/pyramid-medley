@@ -28,7 +28,8 @@ def login(request):
             form.password.data,
         )
         if user:
-            request.session.flash('Welcome back, %s' % user.first_name)
+            request.session.flash(
+                'Welcome back, %s' % user.first_name, 'success')
             headers = remember(request, user.id)
             return request.seeother('home', headers=headers)
         request.session.flash('Sorry, invalid login', 'warning')
@@ -50,7 +51,7 @@ def signup(request):
         form.populate_obj(user)
         DBSession.add(user)
         DBSession.flush()
-        request.session.flash('Welcome, %s' % user.first_name)
+        request.session.flash('Welcome, %s' % user.first_name, 'success')
         headers = remember(request, user.id)
         return request.seeother('home', headers=headers)
     return {'form': form}
