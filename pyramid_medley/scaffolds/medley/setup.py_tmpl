@@ -23,6 +23,7 @@ requires = [
     'alembic',
     'dogpile.cache',
     'WTForms==2.0dev',
+    'wtforms_alchemy',
     'arrow',
     'bcrypt',
     'pytest',

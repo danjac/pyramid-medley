@@ -1,2 +1,35 @@
+from wtforms import (
+    StringField,
+    PasswordField,
+    SubmitField,
+)
 
+from wtforms.validators import (
+    DataRequired,
+    Email,
+    EqualTo,
+)
+
+from wtforms_alchemy import Unique
+
+from ..models import User
 from .base import SecureForm
+
+
+class LoginForm(SecureForm):
+
+    email = StringField("Email address", [Email()])
+    password = PasswordField("Password", [DataRequired()])
+    submit = SubmitField("Login")
+
+
+class SignupForm(SecureForm):
+    first_name = StringField("First name", [DataRequired()])
+    last_name = StringField("Last name", [DataRequired()])
+    email = StringField("Email address", [
+        Email(),
+        Unique(User.email),
+    ])
+    password = PasswordField("Password", [DataRequired()])
+    password_confirm = PasswordField("Password confirm", [EqualTo('password')])
+    submit = SubmitField("Login")

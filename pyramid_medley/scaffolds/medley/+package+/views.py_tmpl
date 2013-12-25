@@ -1,7 +1,51 @@
+from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
+
+from .forms import (
+    SignupForm,
+    LoginForm,
+)
 
 
 @view_config(route_name='home',
              renderer='home.jinja2')
 def home(request):
     return {}
+
+@view_config(route_name='login',
+             permission=NO_PERMISSION_REQUIRED,
+             renderer='login.jinja2')
+def login(request):
+    form = LoginForm(request)
+    if form.handle():
+        user = User.query.authenticate(
+            form.email.data,
+            form.password.data,
+        )
+        if user:
+            request.session.flash('Welcome back, %s' % user.first_name)
+            headers = remember(request, user.id)
+            return request.seeother('home', headers=headers)
+        request.session.flash('Sorry, invalid login', 'warning')
+    return {'form': form}
+
+
+@view_config(route_name='logout')
+def logout(request):
+    return request.seeother('home', headers=forget(request))
+
+
+@view_config(route_name='signup',
+             permission=NO_PERMISSION_REQUIRED,
+             renderer='signup.jinja2')
+def signup(request):
+    form = SignupForm(request)
+    if form.handle():
+        user = User()
+        form.populate_obj(user)
+        DBSession.add(user)
+        DBSession.flush()
+        request.session.flash('Welcome, %s' % user.first_name)
+        headers = remember(request, user.id)
+        return request.seeother('home', headers=headers)
+    return {'form': form}

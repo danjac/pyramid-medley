@@ -46,6 +46,16 @@
             <li><a href="#services">Services</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
+
+          <ul class="nav navbar-nav pull-right">
+            {% if request.user %}
+            <li><a href="\{\{ request.route_url('logout') \}\}">Logout</a></li>
+            {% else %}
+            <li{% if active_tab=='login' %} class="active"{% endif %}><a href="\{\{ request.route_url('login') \}\}">Login</a></li>
+            <li{% if active_tab=='signup' %} class="active"{% endif %}><a href="\{\{ request.route_url('signup') \}\}">Signup</a></li>
+            {% endif %}
+          </ul>
+
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container -->
     </nav>
