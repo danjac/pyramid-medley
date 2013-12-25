@@ -5,13 +5,12 @@ from wtforms.csrf.core import CSRF as BaseCSRF
 class Form(BaseForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        if 'obj' in kwargs:
-            self._obj = kwargs['obj']  # for unique validators
         self.action = kwargs.pop('action', self.request.current_route_url())
+        self._obj = kwargs.get('obj')
         super(Form, self).__init__(self.request.POST, *args, **kwargs)
 
     def handle(self):
-        if self.request.method in ('POST', 'PUT'):
+        if self.request.method n ('POST', 'PUT'):
             if self.validate():
                 return True
             if not self.request.is_xhr:

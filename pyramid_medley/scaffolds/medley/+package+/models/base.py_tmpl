@@ -44,11 +44,11 @@ class BaseModel(object):
 
     @declared_attr
     def created_at(self):
-        return Column(ArrowType, default=arrow.now)
+        return Column(ArrowType, default=arrow.utcnow)
 
     @declared_attr
     def updated_at(self):
-        return Column(ArrowType, onupdate=arrow.now)
+        return Column(ArrowType, onupdate=arrow.utcnow)
 
 
 Base = declarative_base(cls=BaseModel)

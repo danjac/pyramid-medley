@@ -54,6 +54,11 @@ class User(Base):
     def __str__(self):
         return self.email
 
+    @property
+    def full_name(self):
+        return " ".join((self.first_name or '',
+                         self.last_name or '')).strip()
+
     @hybrid_property
     def password(self):
         return self.encrypted_password
