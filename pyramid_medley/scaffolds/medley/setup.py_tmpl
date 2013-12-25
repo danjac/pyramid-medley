@@ -38,6 +38,7 @@ requires = [
     'paginate',
     'zope.sqlalchemy',
     'waitress',
+    'ipython',
     ]
 
 setup(name='{{project}}',

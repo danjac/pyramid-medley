@@ -32,4 +32,4 @@ class SignupForm(SecureForm):
     ])
     password = PasswordField("Password", [DataRequired()])
     password_confirm = PasswordField("Password confirm", [EqualTo('password')])
-    submit = SubmitField("Login")
+    submit = SubmitField("Signup")
