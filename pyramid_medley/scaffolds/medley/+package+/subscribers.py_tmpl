@@ -1,6 +1,6 @@
 from pyramid.events import BeforeRender, subscriber
 
-from webhelpers.html import tags
+from webhelpers2.html import tags
 
 
 @subscriber(BeforeRender)

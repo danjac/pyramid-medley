@@ -1,4 +1,5 @@
 import arrow
+import paginate
 
 from sqlalchemy import (
     Column,
@@ -17,21 +18,50 @@ from sqlalchemy_utils import ArrowType
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
-from webhelpers import paginate
+from jinja2.utils import Markup
 
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 
 
+class SqlAlchemyWrapper(object):
+    """Wrapper class to access elements of a collection."""
+    def __init__(self, collection):
+        self.collection = collection
+
+    def __getitem__(self, range):
+        return self.collection[range]
+
+    def __len__(self):
+        return self.collection.count()
+
+
+class SqlAlchemyPage(paginate.Page):
+        """A pagination page that deals with SQLAlchemy ORM objects."""
+
+        def __init__(self, *args, **kwargs):
+            super(SqlAlchemyPage, self).__init__(
+                *args, wrapper_class=SqlAlchemyWrapper, **kwargs)
+
+        def pager(self, *args, **kwargs):
+            return Markup(super(SqlAlchemyPage, self).pager(*args, **kwargs))
+
+
 class BaseQuery(Query):
 
     def paginate(self, request, **kwargs):
+
         try:
             page_number = int(request.params['page'])
         except (TypeError, KeyError, ValueError):
             page_number = 1
-        page_url = paginate.PageURL_WebOb(request)
-        return paginate.Page(self, page_number, url=page_url, **kwargs)
+
+        def url_maker(page):
+            params = request.params.copy()
+            params['page'] = page
+            return request.current_route_url(_query=params)
+
+        return SqlAlchemyPage(self, page_number, url_maker=url_maker, **kwargs)
 
 
 class BaseModel(object):

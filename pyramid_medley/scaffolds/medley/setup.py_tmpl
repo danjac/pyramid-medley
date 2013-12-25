@@ -34,7 +34,8 @@ requires = [
     'passlib',
     'py-bcrypt',
     'transaction',
-    'webhelpers',
+    'webhelpers2',
+    'paginate',
     'zope.sqlalchemy',
     'waitress',
     ]
