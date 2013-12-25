@@ -1,5 +1,10 @@
-from pyramid.security import NO_PERMISSION_REQUIRED
+from pyramid.security import NO_PERMISSION_REQUIRED, remember, forget
 from pyramid.view import view_config
+
+from .models import (
+    DBSession,
+    User,
+)
 
 from .forms import (
     SignupForm,
