@@ -17,7 +17,7 @@ pyramid.includes =
     pyramid_debugtoolbar
     pyramid_tm
     pyramid_jinja2
-    pyramid_mailer
+    pyramid_mailer.debug
     pyramid_storage
     pyramid_webassets
 

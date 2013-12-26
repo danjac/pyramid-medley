@@ -11,6 +11,7 @@ coverage.xml
 *.orig
 *.tox
 *.hg
+*.sqlite
 env*/
 dist
 data

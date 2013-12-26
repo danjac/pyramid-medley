@@ -12,7 +12,9 @@ def get_templated_mail(request, subject, recipients, sender,
     if not text_template:
         raise ValueError("text_template required")
 
-    message = Message(subject, recipients, sender)
+    message = Message(subject=subject, 
+                      recipients=recipients, 
+                      sender=sender)
     message.body = render(text_template, context, request)
 
     if html_template:
