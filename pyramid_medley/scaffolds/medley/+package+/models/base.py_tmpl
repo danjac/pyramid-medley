@@ -1,9 +1,9 @@
-import arrow
 import paginate
 
 from sqlalchemy import (
     Column,
     Integer,
+    DateTime,
 )
 
 from sqlalchemy.orm import (
@@ -13,8 +13,6 @@ from sqlalchemy.orm import (
 )
 
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
-
-from sqlalchemy_utils import ArrowType
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -78,11 +76,11 @@ class BaseModel(object):
 
     @declared_attr
     def created_at(self):
-        return Column(ArrowType, default=arrow.utcnow)
+        return Column(ArrowType, default=datetime.datetime.utcnow)
 
     @declared_attr
     def updated_at(self):
-        return Column(ArrowType, onupdate=arrow.utcnow)
+        return Column(ArrowType, onupdate=datetime.datetime.utcnow)
 
 
 Base = declarative_base(cls=BaseModel)

@@ -19,7 +19,6 @@ requires = [
     'pyramid_webassets',
     'pyramid_storage',
     'SQLAlchemy',
-    'SQLAlchemy-Utils',
     'alembic',
     'dogpile.cache',
     'WTForms==2.0dev',
