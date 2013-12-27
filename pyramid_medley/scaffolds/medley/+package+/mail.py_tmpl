@@ -4,30 +4,40 @@ from pyramid_mailer import get_mailer
 from pyramid_mailer.message import Message
 
 
-def get_templated_mail(request, subject, recipients, sender,
-                       context=None, text_template=None, html_template=None, 
-                       **kwargs):
+def get_rendered_mail(request, subject, recipients, sender=None,
+                      context=None, renderer=None, text_renderer=None, 
+                      html_renderer=None, 
+                      **kwargs):
 
     context = context or {}
-    if not text_template:
-        raise ValueError("text_template required")
+
+    if renderer:  # base truncated name
+        text_renderer = 'emails/%s.text.jinja2' % renderer
+        html_renderer = 'emails/%s.html.jinja2' % renderer
+
+    if not text_renderer:
+        raise ValueError("text_renderer required")
+
+    if sender is None:
+        sender = request.registry.settings.get(
+            'mail.sender', 'support@{{project}}.com')
 
     message = Message(subject=subject, 
                       recipients=recipients, 
                       sender=sender)
-    message.body = render(text_template, context, request)
+    message.body = render(text_renderer, context, request)
 
-    if html_template:
-        message.html = render(html_template, context, request)
+    if html_renderer:
+        message.html = render(html_renderer, context, request)
 
     return message
 
 
-def send_templated_mail(request, *args, **kwargs):
-    return request.mailer.send(get_templated_mail(request, *args, **kwargs))
+def send_rendered_mail(request, *args, **kwargs):
+    return request.mailer.send(get_rendered_mail(request, *args, **kwargs))
 
 
 def includeme(config):
     config.add_request_method(get_mailer, 'mailer', True)
-    config.add_request_method(get_templated_mail, 'get_templated_mail')
-    config.add_request_method(send_templated_mail, 'send_templated_mail')
+    config.add_request_method(get_rendered_mail, 'get_rendered_mail')
+    config.add_request_method(send_rendered_mail, 'send_rendered_mail')

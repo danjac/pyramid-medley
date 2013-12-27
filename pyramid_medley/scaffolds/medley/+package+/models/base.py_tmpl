@@ -49,6 +49,10 @@ class SqlAlchemyPage(paginate.Page):
 
 class BaseQuery(Query):
 
+    def any(self):
+        """Wraps EXISTS call"""
+        return DBSession.query(self.exists()).scalar()
+
     def paginate(self, request, **kwargs):
 
         try:
