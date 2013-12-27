@@ -19,9 +19,9 @@
 {% endmacro %}
 
 
-{% macro breadcrumbs(args) %}
+{% macro breadcrumbs() %}
 <ul class="breadcrumb">
-    {% for item in args %}
+    {% for item in varargs %}
     <li{% if loop.last %} class="active"{% endif %}>
     {% if item is string %}
     {{ item }}</li>
