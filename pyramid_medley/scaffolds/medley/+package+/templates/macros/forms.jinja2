@@ -67,24 +67,3 @@
     {% endfor %}
 </div>
 {% endmacro %}
-
-
-{% macro render_pagination(page) %}
-{% if page.page_count > 1 %}
-<ul class="pagination">
-    {% if page.previous_page %}
-    <li><a href="{{ page.url_maker(page.previous_page) }}">&laquo;</a></li>
-    {% else %}
-    <li class="disabled"><a href="#">&laquo;</a></li>
-    {% endif %}
-    {% for i in range(1, page.page_count + 1) %}
-    <li{% if i == page.page %} class="active"{% endif %}><a href="{{ page.url_maker(i) }}">{{ i }}</a></li>
-    {% endfor %}
-    {% if page.next_page %}
-    <li><a href="{{ page.url_maker(page.next_page) }}">&raquo;</a></li>
-    {% else %}
-    <li class="disabled"><a href="#">&raquo;</a></li>
-    {% endif %}
-</ul>
-{% endif %}
-{% endmacro %}
