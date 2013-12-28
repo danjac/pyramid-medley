@@ -1,0 +1,4 @@
+from .lib.mail import get_templated_mail, send_templated_mail
+
+
+##### Add your mailer functions here #####
