@@ -43,7 +43,7 @@ webassets.cache_max_age=3600
 # requires python-memcached
 cache.backend = dogpile.cache.memcached
 cache.expires = 3600
-cache.url = 127.0.0.1:11211
+cache.arguments.url = 127.0.0.1:11211
 
 
 # File storage
