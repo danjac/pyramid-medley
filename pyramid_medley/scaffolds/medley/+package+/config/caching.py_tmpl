@@ -4,23 +4,4 @@ region = make_region()
 
 
 def includeme(config):
-
-    settings = config.registry.settings
-    prefix = 'cache.'
-
-    backend_key = prefix + 'backend'
-    exp_key = prefix + 'expires'
-
-    other_keys = [k for k in settings
-                  if not k in (backend_key, exp_key) and
-                  k.startswith(prefix)]
-
-    prefix_len = len(prefix)
-
-    arguments = dict((k[prefix_len:], settings.get(k)) for k in other_keys)
-
-    region.configure(
-        settings[backend_key],
-        expiration_time=int(settings.get(exp_key, 3600)),
-        arguments=arguments,
-    )
+    region.configure_from_config(config.registry.settings, 'cache.')
