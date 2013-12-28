@@ -10,7 +10,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 
 from .lib.models import DBSession, Base, BaseQuery
-from .lib.crypt import encrypt_password, check_password
+from .lib import crypt
 
 
 class UserQuery(BaseQuery):
@@ -54,7 +54,7 @@ class User(Base):
 
     @password.setter
     def set_password(self, password):
-        self.encrypted_password = encrypt_password(password)
+        self.encrypted_password = crypt.encrypt_password(password)
 
     def check_password(self, password):
-        return check_password(password, self.password)
+        return crypt.check_password(password, self.password)
