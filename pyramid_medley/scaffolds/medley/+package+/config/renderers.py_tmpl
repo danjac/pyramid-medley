@@ -1,7 +1,7 @@
 import functools
 
 
-from ..lib.format import (
+from ..lib.formatters import (
     format_date, 
     format_currency,
     DEFAULT_DATE_FORMAT,
