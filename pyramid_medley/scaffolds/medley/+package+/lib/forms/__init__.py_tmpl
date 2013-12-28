@@ -4,10 +4,18 @@ from wtforms.csrf.core import CSRF as BaseCSRF
 
 class Form(BaseForm): 
     def __init__(self, request, *args, **kwargs):
+
         self.request = request
         self.action = kwargs.pop('action', self.request.current_route_url())
         self._obj = kwargs.get('obj')
+
+        params = kwargs.pop('params', self.request.POST)
+
         super(Form, self).__init__(self.request.POST, *args, **kwargs)
+
+    @classmethod
+    def from_json(cls, request, *args, **kwargs):
+        return cls(request, params=request.json_body, *args, **kwargs)
 
     def handle(self):
         if self.request.method in ('POST', 'PUT'):
