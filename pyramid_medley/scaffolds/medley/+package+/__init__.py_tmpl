@@ -33,6 +33,12 @@ def main(global_config, **settings):
 
     config.set_session_factory(session_factory)
 
+    # Static files 
+
+    config.add_static_view('static', 'static', cache_max_age=3600)
+
+    # Your includes
+
     config.include('.config.auth')
     config.include('.config.routes')
     config.include('.config.renderers')

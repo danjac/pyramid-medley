@@ -23,6 +23,4 @@ def includeme(config):
     config.add_directive('route_defaults', route_defaults)
     config.add_directive('model_route_defaults', model_route_defaults)
 
-    config.add_static_view('static', 'static', cache_max_age=3600)
-
     add_routes(config)
