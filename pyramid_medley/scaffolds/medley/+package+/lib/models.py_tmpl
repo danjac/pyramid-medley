@@ -1,3 +1,4 @@
+import datetime
 import paginate
 
 from sqlalchemy import (
@@ -76,11 +77,11 @@ class BaseModel(object):
 
     @declared_attr
     def created_at(self):
-        return Column(ArrowType, default=datetime.datetime.utcnow)
+        return Column(DateTime, default=datetime.datetime.utcnow)
 
     @declared_attr
     def updated_at(self):
-        return Column(ArrowType, onupdate=datetime.datetime.utcnow)
+        return Column(DateTime, onupdate=datetime.datetime.utcnow)
 
 
 Base = declarative_base(cls=BaseModel)

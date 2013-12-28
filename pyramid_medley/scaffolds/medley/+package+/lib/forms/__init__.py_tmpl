@@ -2,7 +2,7 @@ from wtforms import Form as BaseForm
 from wtforms.csrf.core import CSRF as BaseCSRF
 
 
-class Form(BaseForm):
+class Form(BaseForm): 
     def __init__(self, request, *args, **kwargs):
         self.request = request
         self.action = kwargs.pop('action', self.request.current_route_url())

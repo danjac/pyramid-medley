@@ -3,7 +3,7 @@ import sys
 
 from pyramid.paster import bootstrap
 
-from .base import run_jobs
+from ..lib.crons import run_jobs
 
 
 def usage(argv):

@@ -33,12 +33,12 @@ def main(global_config, **settings):
 
     config.set_session_factory(session_factory)
 
-    config.include('.auth')
-    config.include('.routes')
-    config.include('.renderers')
-    config.include('.mail')
-    config.include('.caching')
-    config.include('.assets')
+    config.include('.config.auth')
+    config.include('.config.routes')
+    config.include('.config.renderers')
+    config.include('.config.mail')
+    config.include('.config.caching')
+    config.include('.config.assets')
 
     config.scan()
     return config.make_wsgi_app()

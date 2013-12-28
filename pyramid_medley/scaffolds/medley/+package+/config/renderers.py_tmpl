@@ -1,16 +1,11 @@
-import decimal
 import functools
 
-DEFAULT_DATE_FORMAT = "%d/%m/%Y"
-NUM_DECIMAL_PLACES = decimal.Decimal(10) ** -2
 
-
-def format_date(value, format=DEFAULT_DATE_FORMAT, default=''):
-    return value.strftime(format) if value else default
-
-
-def format_currency(value, default='0.00'):
-    return value.quantize(NUM_DECIMAL_PLACES) if value else default
+from ..lib.format import (
+    format_date, 
+    format_currency,
+    DEFAULT_DATE_FORMAT,
+)
 
 
 def includeme(config):

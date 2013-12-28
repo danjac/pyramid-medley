@@ -34,10 +34,4 @@ def get_rendered_mail(request, subject, recipients, sender=None,
 
 
 def send_rendered_mail(request, *args, **kwargs):
-    return request.mailer.send(get_rendered_mail(request, *args, **kwargs))
-
-
-def includeme(config):
-    config.add_request_method(get_mailer, 'mailer', True)
-    config.add_request_method(get_rendered_mail, 'get_rendered_mail')
-    config.add_request_method(send_rendered_mail, 'send_rendered_mail')
+    return get_mailer(request).send(get_rendered_mail(request, *args, **kwargs))

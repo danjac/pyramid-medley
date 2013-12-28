@@ -8,20 +8,9 @@ from sqlalchemy import (
 
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from passlib.hash import bcrypt
 
-from .base import DBSession, Base, BaseQuery
-
-
-def encrypt_password(password):
-    return
-
-
-def check_password(password, encrypted):
-    try:
-        return bcrypt.verify(password, encrypted)
-    except TypeError:
-        return False
+from .lib.models import DBSession, Base, BaseQuery
+from .lib.crypt import encrypt_password, check_password
 
 
 class UserQuery(BaseQuery):
