@@ -1,4 +1,4 @@
-from .lib.mail import get_templated_mail, send_templated_mail
+from .lib.mail import get_rendered_mail, send_rendered_mail
 
 
 ##### Add your mailer functions here #####
