@@ -1,9 +1,9 @@
 import freezegun
 
+
 def test_job_is_run():
 
-    from ..scripts.crons import run_jobs
-    from ..scripts.crons.base import job
+    from ..lib.crons import run_jobs, job
 
     jobs_run = []
 
@@ -19,8 +19,7 @@ def test_job_is_run():
 
 def test_job_is_not_run():
 
-    from ..scripts.crons import run_jobs
-    from ..scripts.crons.base import job
+    from ..lib.crons import run_jobs, job
 
     jobs_run = []
 

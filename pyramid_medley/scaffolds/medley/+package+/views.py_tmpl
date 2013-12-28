@@ -1,15 +1,7 @@
 from pyramid.security import NO_PERMISSION_REQUIRED, remember, forget
 from pyramid.view import view_config
 
-from .models import (
-    DBSession,
-    User,
-)
-
-from .forms import (
-    SignupForm,
-    LoginForm,
-)
+from . import forms, models
 
 
 @view_config(route_name='home',
@@ -21,9 +13,9 @@ def home(request):
              permission=NO_PERMISSION_REQUIRED,
              renderer='login.jinja2')
 def login(request):
-    form = LoginForm(request)
+    form = forms.LoginForm(request)
     if form.handle():
-        user = User.query.authenticate(
+        user = models.User.query.authenticate(
             form.email.data,
             form.password.data,
         )
@@ -45,12 +37,12 @@ def logout(request):
              permission=NO_PERMISSION_REQUIRED,
              renderer='signup.jinja2')
 def signup(request):
-    form = SignupForm(request)
+    form = forms.SignupForm(request)
     if form.handle():
-        user = User()
+        user = models.User()
         form.populate_obj(user)
-        DBSession.add(user)
-        DBSession.flush()
+        models.DBSession.add(user)
+        models.DBSession.flush()
         request.session.flash('Welcome, %s' % user.first_name, 'success')
         headers = remember(request, user.id)
         return request.seeother('home', headers=headers)
