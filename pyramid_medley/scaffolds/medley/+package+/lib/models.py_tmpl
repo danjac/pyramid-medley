@@ -19,6 +19,8 @@ from zope.sqlalchemy import ZopeTransactionExtension
 
 from jinja2.utils import Markup
 
+from ..config.caching import region
+
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 
@@ -47,6 +49,9 @@ class SqlAlchemyPage(paginate.Page):
 
 
 class BaseQuery(Query):
+
+    def from_cache(self, key, region=region, **kwargs):
+        return region.get_or_create(key, lambda: self.all(), **kwargs)
 
     def any(self):
         """Wraps EXISTS call"""
