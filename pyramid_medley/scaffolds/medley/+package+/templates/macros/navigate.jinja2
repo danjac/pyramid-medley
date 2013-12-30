@@ -24,7 +24,7 @@
     {% for item in varargs %}
     <li{% if loop.last %} class="active"{% endif %}>
     {% if item is string %}
-    {{ item }}</li>
+    {{ item }}
     {% else %}
     <a href="{{ item[0] }}">{{ item[1] }}</a>
     {% endif %}
