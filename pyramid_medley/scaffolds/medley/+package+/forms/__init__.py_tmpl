@@ -12,8 +12,8 @@ from wtforms.validators import (
 
 from wtforms_alchemy import Unique
 
-from .lib.forms import SecureForm
-from .models import User
+from ..models import User
+from .base import SecureForm
 
 
 class LoginForm(SecureForm):
