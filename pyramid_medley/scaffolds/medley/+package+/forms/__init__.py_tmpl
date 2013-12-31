@@ -8,6 +8,7 @@ from wtforms.validators import (
     DataRequired,
     Email,
     EqualTo,
+    Length,
 )
 
 from wtforms_alchemy import Unique
@@ -30,6 +31,6 @@ class SignupForm(SecureForm):
         Email(),
         Unique(User.email),
     ])
-    password = PasswordField("Password", [DataRequired()])
+    password = PasswordField("Password", [DataRequired(), Length(min=6)])
     password_confirm = PasswordField("Password confirm", [EqualTo('password')])
     submit = SubmitField("Signup")
