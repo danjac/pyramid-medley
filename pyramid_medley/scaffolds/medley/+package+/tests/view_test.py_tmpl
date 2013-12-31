@@ -71,8 +71,8 @@ def test_signup_post(db):
             'first_name': 'test',
             'last_name': 'test',
             'email': 'test@gmail.com',
-            'password': 'test',
-            'password_confirm': 'test',
+            'password': 'testpass',
+            'password_confirm': 'testpass',
             }, route_name='signup')
         res = signup(req)
         assert res.route_name == 'home'
