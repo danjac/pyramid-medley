@@ -1,6 +1,4 @@
-from dogpile.cache import make_region
-
-region = make_region()
+from .caching import region
 
 
 def includeme(config):
