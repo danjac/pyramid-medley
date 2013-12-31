@@ -6,7 +6,7 @@ from pyramid.security import (
 from pyramid.authentication import AuthTktAuthenticationPolicy
 
 from .models import User
-from .security import Staff
+from .security import Admins
 from .resources import Root
 
 
@@ -25,5 +25,5 @@ class AuthenticationPolicy(AuthTktAuthenticationPolicy):
             rv.append(Authenticated)
             rv.append("user:%d" % request.user.id)
             if request.user.is_admin:
-                rv.append(Staff)
+                rv.append(Admins)
         return rv
