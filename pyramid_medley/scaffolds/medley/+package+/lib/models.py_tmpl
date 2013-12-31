@@ -19,7 +19,7 @@ from zope.sqlalchemy import ZopeTransactionExtension
 
 from jinja2.utils import Markup
 
-from .caching import region
+from ..caching import region
 
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
