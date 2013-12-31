@@ -1,4 +1,4 @@
-from .caching import region
+from ..caching import region
 
 
 def includeme(config):
