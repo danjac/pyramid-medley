@@ -1,6 +1,6 @@
 from pyramid.authorization import ACLAuthorizationPolicy
 
-from ..lib.auth import AuthenticationPolicy, get_user
+from ..auth import AuthenticationPolicy, get_user
 from ..resources import Root
 
 
