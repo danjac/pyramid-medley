@@ -5,9 +5,9 @@ from pyramid.security import (
 
 from pyramid.authentication import AuthTktAuthenticationPolicy
 
-from ..models import User
-from ..security import Staff
-from ..resources import Root
+from .models import User
+from .security import Staff
+from .resources import Root
 
 
 def get_user(request):
