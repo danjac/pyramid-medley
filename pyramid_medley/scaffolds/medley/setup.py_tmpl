@@ -23,7 +23,6 @@ requires = [
     'dogpile.cache',
     'WTForms==2.0dev',
     'wtforms_alchemy',
-    'arrow',
     'bcrypt',
     'pytest',
     'arrow',

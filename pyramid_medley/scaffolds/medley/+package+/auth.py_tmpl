@@ -7,7 +7,6 @@ from pyramid.authentication import AuthTktAuthenticationPolicy
 
 from .models import User
 from .security import Admins
-from .resources import Root
 
 
 def get_user(request):
