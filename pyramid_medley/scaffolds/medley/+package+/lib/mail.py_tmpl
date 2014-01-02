@@ -18,10 +18,6 @@ def get_rendered_mail(request, subject, recipients, sender=None,
     if not text_renderer:
         raise ValueError("text_renderer required")
 
-    if sender is None:
-        sender = request.registry.settings.get(
-            'mail.sender', 'support@{{project}}.com')
-
     message = Message(subject=subject, 
                       recipients=recipients, 
                       sender=sender)
