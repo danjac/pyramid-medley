@@ -1,7 +1,7 @@
 import os
 import sys
 import time
-import scheduler
+import schedule
 
 from pyramid.paster import bootstrap
 
@@ -31,5 +31,7 @@ def main(argv=sys.argv):
     config_uri = argv[1]
     env = bootstrap(config_uri)
     while True:
+        # in production, probably better to run this 
+        # using e.g. supervisord or monit
         schedule.run_pending()
         time.sleep(1)
