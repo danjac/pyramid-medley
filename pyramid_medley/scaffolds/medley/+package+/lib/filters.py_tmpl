@@ -1,4 +1,7 @@
 import decimal
+import json
+import jinja2
+
 
 DEFAULT_DATE_FORMAT = "%d/%m/%Y"
 NUM_DECIMAL_PLACES = decimal.Decimal(10) ** -2
@@ -10,3 +13,10 @@ def format_date(value, format=DEFAULT_DATE_FORMAT, default=''):
 
 def format_currency(value, default='0.00'):
     return value.quantize(NUM_DECIMAL_PLACES) if value else default
+
+
+@jinja2.contextfilter
+def jsonify(context, value):
+    if hasattr(value, '__json__'):
+        value = value.__json__(context['request'])
+    return jinja2.Markup(json.dumps(value))

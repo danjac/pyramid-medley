@@ -2,7 +2,8 @@ import functools
 
 from webhelpers2.text import plural
 
-from ..lib.formatters import (
+from ..lib.filters import (
+    jsonify,
     format_date, 
     format_currency,
     DEFAULT_DATE_FORMAT,
@@ -28,3 +29,4 @@ def includeme(config):
     )
     env.filters['moneyformat'] = format_currency
     env.filters['plural'] = plural
+    env.filters['jsonify'] = jsonify
