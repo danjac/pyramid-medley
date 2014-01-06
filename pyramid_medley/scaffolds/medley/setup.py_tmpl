@@ -12,7 +12,6 @@ requires = [
     'pyramid',
     'pyramid_debugtoolbar',
     'pyramid_tm',
-    'pyramid_beaker',
     'pyramid_mailer==0.13',
     'pyramid_jinja2',
     'pyramid_exclog',
