@@ -23,6 +23,7 @@ pyramid.includes =
 
 
 jinja2.directories = {{project}}:templates
+jinja2.i18n.domain = {{project}}
 sqlalchemy.url = sqlite:///%(here)s/{{project}}.sqlite
 
 # Assets

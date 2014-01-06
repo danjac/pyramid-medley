@@ -35,6 +35,8 @@ requires = [
     'paginate',
     'zope.sqlalchemy',
     'waitress',
+    'babel',
+    'lingua',
     'ipython',
     ]
 
