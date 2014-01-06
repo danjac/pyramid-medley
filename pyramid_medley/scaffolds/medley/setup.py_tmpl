@@ -25,7 +25,6 @@ requires = [
     'schedule',
     'bcrypt',
     'pytest',
-    'arrow',
     'factory_boy',
     'mock',
     'freezegun',
