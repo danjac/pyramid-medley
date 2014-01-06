@@ -1,3 +1,4 @@
+from pyramid.i18n import get_locale_name
 from webob.multidict import MultiDict
 
 from wtforms import Form as BaseForm
@@ -12,8 +13,12 @@ class Form(BaseForm):
         self._obj = kwargs.get('obj')
 
         params = kwargs.pop('params', self.request.POST)
+        locales = [get_locale_name(request)]
 
-        super(Form, self).__init__(params, *args, **kwargs)
+        super(Form, self).__init__(
+            params, 
+            meta={'locales': locales}, 
+            *args, **kwargs)
 
     @classmethod
     def from_json(cls, request, *args, **kwargs):

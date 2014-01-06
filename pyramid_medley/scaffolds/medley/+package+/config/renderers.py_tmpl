@@ -2,13 +2,7 @@ import functools
 
 from webhelpers2.text import plural
 
-from ..lib.filters import (
-    jsonify,
-    format_date, 
-    format_currency,
-    DEFAULT_DATE_FORMAT,
-)
-
+from ..lib.filters import jsonify
 
 def includeme(config):
     # if variable is None print '' instead of 'None'
@@ -20,13 +14,5 @@ def includeme(config):
     env = config.get_jinja2_environment()
     env.finalize = _silent_none
 
-    default_date_format = config.get_settings().get(
-        '{{project}}.date_format',
-        DEFAULT_DATE_FORMAT
-    )
-    env.filters['dateformat'] = functools.partial(
-        format_date, format=default_date_format
-    )
-    env.filters['moneyformat'] = format_currency
     env.filters['plural'] = plural
     env.filters['jsonify'] = jsonify
