@@ -1,4 +1,5 @@
 from pyramid.security import NO_PERMISSION_REQUIRED, remember, forget
+from pyramid.exceptions import NotFound
 from pyramid.view import view_config
 
 from . import forms, models
@@ -8,6 +9,7 @@ from . import forms, models
              renderer='home.jinja2')
 def home(request):
     return {}
+
 
 @view_config(route_name='login',
              permission=NO_PERMISSION_REQUIRED,
@@ -46,4 +48,50 @@ def signup(request):
         request.session.flash('Welcome, %s' % user.first_name, 'success')
         headers = remember(request, user.id)
         return request.seeother('home', headers=headers)
+    return {'form': form}
+
+
+@view_config(route_name='forgotpass',
+             permission=NO_PERMISSION_REQUIRED,
+             renderer='forgot_password.jinja2')
+def forgot_password(request):
+
+    form = forms.ForgotPasswordForm(request)
+    if form.handle():
+        user = models.User.query.filter_by(email=form.email.data).first()
+        if user:
+            user.renew_verification_code()
+            request.session.flash(
+                'Check your email for your verification code', 'success')
+            mailers.forgot_password(request, user)
+            return request.seeother('home')
+        form.email.errors.append('No user found for this address')
+    return {'form': form}
+
+
+@view_config(route_name='changepass',
+             permission=NO_PERMISSION_REQUIRED,
+             renderer='change_password.jinja2')
+def change_password(request):
+
+    user = request.user
+    verification_code = None
+
+    if user is None:
+        verification_code = request.params.get('code')
+        if verification_code:
+            user = models.User.query.filter_by(
+                verification_code=verification_code).first()
+
+    if user is None:
+        raise NotFound()
+
+    form = forms.ChangePasswordForm(request, code=verification_code)
+    if form.handle():
+        user.password = form.password.data
+        user.verification_code = None
+        request.session.flash(
+            'Please login again to verify your new password', 'success')
+        headers = forget(request)
+        return request.seeother('login', headers=headers)
     return {'form': form}
