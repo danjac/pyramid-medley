@@ -41,8 +41,8 @@ def signup(request):
     if form.handle():
         user = models.User()
         form.populate_obj(user)
-        models.DBSession.add(user)
-        models.DBSession.flush()
+        request.db.add(user)
+        request.db.flush()
         request.session.flash('Welcome, %s' % user.first_name, 'success')
         headers = remember(request, user.id)
         return request.seeother('home', headers=headers)

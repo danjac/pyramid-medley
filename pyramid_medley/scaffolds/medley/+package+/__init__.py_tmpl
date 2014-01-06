@@ -3,10 +3,6 @@ import os
 from pyramid.config import Configurator
 from pyramid.session import SignedCookieSessionFactory
 
-from sqlalchemy import engine_from_config
-
-from .models import DBSession, Base
-
 ENV_SETTINGS = {
     '{{project.upper()}}_SQLALCHEMY_URL': 'sqlalchemy.url',
     '{{project.upper()}}_SECRET': '{{project}}.secret',
@@ -22,9 +18,6 @@ def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     settings.update(get_environ_settings())
-    engine = engine_from_config(settings, 'sqlalchemy.')
-    DBSession.configure(bind=engine)
-    Base.metadata.bind = engine
     config = Configurator(settings=settings)
     
     session_factory = SignedCookieSessionFactory(
@@ -39,6 +32,7 @@ def main(global_config, **settings):
 
     # Your includes
 
+    config.include('.config.db')
     config.include('.config.auth')
     config.include('.config.routes')
     config.include('.config.renderers')
@@ -47,4 +41,5 @@ def main(global_config, **settings):
     config.include('.config.assets')
 
     config.scan()
+
     return config.make_wsgi_app()
