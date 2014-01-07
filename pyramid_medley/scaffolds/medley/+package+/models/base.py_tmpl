@@ -59,9 +59,9 @@ class Page(paginate.Page):
                 url_maker=url_maker, **kwargs)
 
             leftmost_page = max((self.page - (self.window_size // 2)),
-                                self.first_page)
+                                self.first_page or 1)
             rightmost_page = min((self.page + (self.window_size // 2)),
-                                 self.last_page)
+                                 self.last_page or 1)
             self.window = range(leftmost_page, rightmost_page + 1)
 
 
