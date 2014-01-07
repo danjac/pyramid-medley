@@ -32,7 +32,7 @@ class SqlAlchemyWrapper(object):
         return self.collection[range]
 
     def __len__(self):
-        if hasattr(self.collection, 'count'):
+        if isinstance(self.collection, Query):
             return self.collection.count()
         return len(self.collection)
 

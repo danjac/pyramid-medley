@@ -17,8 +17,6 @@ pyramid.includes =
     pyramid_debugtoolbar
     pyramid_tm
     pyramid_jinja2
-    # re-enable this when 0.14 is released
-    #pyramid_mailer.debug
     pyramid_mailer
     pyramid_storage
     pyramid_webassets
