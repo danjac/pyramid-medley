@@ -42,9 +42,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
-              <li><a href="#about">{{ _('About') }}</a></li>
-              <li><a href="#services">{{ _('Services') }}</a></li>
-              <li><a href="#contact">{{ _('Contact') }}</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
           </ul>
 
           <ul class="nav navbar-nav pull-right">
@@ -85,7 +84,7 @@
       <footer>
         <div class="row">
           <div class="col-lg-12">
-            <p>Copyright &copy; Company 2013 - Template by <a href="http://maxoffsky.com/">Maks</a></p>
+            <p>Copyright &copy; Company 2013</p>
           </div>
         </div>
       </footer>

@@ -1,9 +1,11 @@
 from wtforms import ValidationError
 
+from ..config.i18n import _
+
 
 class FileRequired(object):
 
-    message = 'File is required'
+    message = _('File is required')
     field_flags = ('required', )
 
     def __init__(self, message=None):

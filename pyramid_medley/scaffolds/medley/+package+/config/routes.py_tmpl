@@ -8,11 +8,17 @@ from ..lib.routes import (
 
 def add_routes(config):
 
-    ###### ADD YOUR ROUTES HERE ######
     config.add_route('home', '/')
+
+    # Auth routes
+
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
     config.add_route('signup', '/signup')
+    config.add_route('forgotpass', '/forgotpass')
+    config.add_route('changepass', '/changepass')
+
+    ###### ADD YOUR ROUTES HERE ######
 
 
 def includeme(config):

@@ -4,5 +4,5 @@ _ = TranslationStringFactory('{{project}}')
 
 
 def includeme(config):
-    config.add_translation_dirs('{{project}}.locale')
+    config.add_translation_dirs('{{project}}:locale')
     # config.set_local_negotiator(some_callable)

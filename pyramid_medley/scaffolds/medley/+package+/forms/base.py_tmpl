@@ -4,6 +4,8 @@ from webob.multidict import MultiDict
 from wtforms import Form as BaseForm
 from wtforms.csrf.core import CSRF as BaseCSRF
 
+from ..config.i18n import _
+
 
 class Form(BaseForm): 
     def __init__(self, request, *args, **kwargs):
@@ -31,7 +33,7 @@ class Form(BaseForm):
                 return True
             if not self.request.is_xhr:
                 self.request.session.flash(
-                    'Your form contains errors', 'warning')
+                    _('Your form contains errors'), 'warning')
             self.request.response.status_int = 400
         return False
 
