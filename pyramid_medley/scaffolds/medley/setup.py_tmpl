@@ -61,7 +61,6 @@ setup(name='{{project}}',
       install_requires=requires,
       dependency_links=[
           "http://github.com/wtforms/wtforms/tarball/master#egg=WTForms-2.0dev",
-          "http://github.com/Pylons/pyramid_mailer/tarball/master#egg=pyramid_mailer-0.13",
       ],
       entry_points="""\
       [paste.app_factory]
