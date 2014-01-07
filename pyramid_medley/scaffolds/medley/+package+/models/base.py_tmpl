@@ -41,8 +41,17 @@ class SqlAlchemyPage(paginate.Page):
         """A pagination page that deals with SQLAlchemy ORM objects."""
 
         def __init__(self, *args, **kwargs):
+            self.window_size = kwargs.pop('window_size', 10)
             super(SqlAlchemyPage, self).__init__(
                 *args, wrapper_class=SqlAlchemyWrapper, **kwargs)
+
+            leftmost_page = max((self.page - (self.window_size // 2)),
+                                self.first_page)
+            rightmost_page = min((self.page + (self.window_size // 2)),
+                                 self.last_page)
+            if rightmost_page < self.window_size < self.last_page:
+                rightmost_page = self.window_size
+            self.window = range(leftmost_page, rightmost_page + 1)
 
         def pager(self, *args, **kwargs):
             return Markup(super(SqlAlchemyPage, self).pager(*args, **kwargs))

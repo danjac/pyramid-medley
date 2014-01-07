@@ -24,7 +24,8 @@ class Form(BaseForm):
 
     @classmethod
     def from_json(cls, request, *args, **kwargs):
-        return cls(request, params=MultiDict(request.json_body), 
+        return cls(request, 
+                   params=MultiDict(request.json_body), 
                    *args, **kwargs)
 
     def handle(self):
