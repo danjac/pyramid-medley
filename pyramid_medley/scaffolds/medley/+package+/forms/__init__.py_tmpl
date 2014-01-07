@@ -38,3 +38,14 @@ class SignupForm(SecureForm):
         [EqualTo('password')]
     )
     submit = SubmitField(_("Signup"))
+
+
+class ForgotPasswordForm(SecureForm):
+    email = StringField("Email address", [Email()])
+    submit = SubmitField("Send")
+
+
+class ChangePasswordForm(SecureForm):
+    password = PasswordField("Password", [DataRequired(), Length(min=6)])
+    password_confirm = PasswordField("Password confirm", [EqualTo('password')])
+    submit = SubmitField("Signup")
