@@ -1,6 +1,6 @@
 from pyramid.security import NO_PERMISSION_REQUIRED, remember, forget
 from pyramid.exceptions import NotFound
-from pyramid.view import view_config
+from pyramid.view import view_config, forbidden_view_config
 
 from .config.i18n import _
 from . import forms, models, mailers
@@ -12,6 +12,15 @@ def home(request):
     return {}
 
 
+@forbidden_view_config(renderer='login.jinja2')
+def forbidden(request):
+    form = forms.LoginForm(request, action=request.route_url('login'))
+    request.session.flash(
+        request.localizer.translate(
+            _("Sorry, you're not allowed to do that")), 'warning')
+    return {'form': form}
+
+                                   
 @view_config(route_name='login',
              permission=NO_PERMISSION_REQUIRED,
              renderer='login.jinja2')
@@ -29,7 +38,7 @@ def login(request):
                         'name': user.full_name,
                     })),  'success')
             headers = remember(request, user.id)
-            return request.seeother('home', headrs=headers)
+            return request.seeother('home', headers=headers)
         request.session.flash('Sorry, invalid login', 'warning')
     return {'form': form}
 
