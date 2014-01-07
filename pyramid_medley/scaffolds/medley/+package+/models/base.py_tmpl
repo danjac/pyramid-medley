@@ -17,8 +17,6 @@ from sqlalchemy.ext.declarative import declarative_base, declared_attr
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
-from jinja2.utils import Markup
-
 from ..caching import region
 
 
@@ -49,12 +47,7 @@ class SqlAlchemyPage(paginate.Page):
                                 self.first_page)
             rightmost_page = min((self.page + (self.window_size // 2)),
                                  self.last_page)
-            if rightmost_page < self.window_size < self.last_page:
-                rightmost_page = self.window_size
             self.window = range(leftmost_page, rightmost_page + 1)
-
-        def pager(self, *args, **kwargs):
-            return Markup(super(SqlAlchemyPage, self).pager(*args, **kwargs))
 
 
 class BaseQuery(Query):
