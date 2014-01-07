@@ -54,8 +54,9 @@ class Page(paginate.Page):
             self.window_size = kwargs.pop('window_size', 10)
 
             super(Page, self).__init__(
-                collection, page_number,
-                *args, wrapper_class=SqlAlchemyWrapper, **kwargs)
+                collection, page_number, 
+                *args, wrapper_class=SqlAlchemyWrapper, 
+                url_maker=url_maker, **kwargs)
 
             leftmost_page = max((self.page - (self.window_size // 2)),
                                 self.first_page)

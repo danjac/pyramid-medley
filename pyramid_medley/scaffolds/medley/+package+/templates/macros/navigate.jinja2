@@ -9,7 +9,7 @@
     <li class="disabled"><a href="#">&laquo;</a></li>
     {% endif %}
     {% for curpage in page.window %}
-    <li{% if curpage == page.page %} class="active"{% endif %}><a href="{{ page.url_maker(curpage) }}">{{ i }}</a></li>
+    <li{% if curpage == page.page %} class="active"{% endif %}><a href="{{ page.url_maker(curpage) }}">{{ curpage }}</a></li>
     {% endfor %}
     {% if page.next_page %}
     <li><a href="{{ page.url_maker(page.next_page) }}">&raquo;</a></li>
