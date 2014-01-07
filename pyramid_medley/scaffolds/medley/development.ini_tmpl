@@ -41,8 +41,10 @@ webassets.cache_max_age=3600
 cache.backend = dogpile.cache.memory
 
 # SMTP
+# test in cli with this command
+# python -m smtpd -n -c DebuggingServer localhost:2500
 mail.host = localhost
-mail.port = 25
+mail.port = 2500
 
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.

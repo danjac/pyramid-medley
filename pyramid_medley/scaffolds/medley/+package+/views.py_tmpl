@@ -82,7 +82,7 @@ def forgot_password(request):
                 request.localizer.translate(
                     _('Check your email for your verification code')),
                 'success')
-            mailers.forgot_password(request, user)
+            request.mailer.send(mailers.forgot_password(request, user))
             return request.seeother('home')
         form.email.errors.append('No user found for this address')
     return {'form': form}

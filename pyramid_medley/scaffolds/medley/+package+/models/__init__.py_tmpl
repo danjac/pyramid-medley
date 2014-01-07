@@ -43,6 +43,7 @@ class User(Base):
     encrypted_password = Column('password', String(60))
     is_admin = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
+    verification_code = Column(String(60), unique=True)
 
     def __str__(self):
         return self.email
