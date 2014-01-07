@@ -6,6 +6,8 @@ from pyramid_storage.testing import DummyFileStorage
 
 from webob.multidict import MultiDict
 
+from ..models import DBSession
+
 
 class DummyRedirect(object):
 
@@ -35,6 +37,7 @@ def make_request(method='GET', post_data=None,
     req.seeother = DummyRedirect
     req.mailer = DummyMailer()
     req.matched_route = DummyRoute(route_name)
+    req.db = DBSession
 
     if params is None:
         params = {}
