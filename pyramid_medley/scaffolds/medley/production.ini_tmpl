@@ -26,6 +26,9 @@ pyramid.includes =
 # # this is example: better to use ENV setting {{project.upper()}}_SQLALCHEMY_URL
 #sqlalchemy.url = postgresql://postgres:mypassword@localhost/{{project}}
 
+jinja2.directories = {{project}}:templates
+jinja2.i18n.domain = {{project}}
+
 # Assets
 
 webassets.base_dir=%(here)s/{{project}}/static
