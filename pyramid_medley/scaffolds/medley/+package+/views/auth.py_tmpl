@@ -2,8 +2,8 @@ from pyramid.security import NO_PERMISSION_REQUIRED, remember, forget
 from pyramid.exceptions import NotFound
 from pyramid.view import view_config
 
-from .i18n import _
-from . import forms, models, mailers
+from ..i18n import _
+from .. import forms, models, mailers
 
                                    
 @view_config(route_name='login',
