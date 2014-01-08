@@ -1,5 +1,7 @@
 import paginate
 
+from sqlalchemy.orm import Query
+
 
 class SqlAlchemyWrapper(object):
     """Wrapper class to access elements of a collection."""
