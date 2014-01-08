@@ -49,6 +49,7 @@ cache.backend = dogpile.cache.memory
 # python -m smtpd -n -c DebuggingServer localhost:2500
 mail.host = localhost
 mail.port = 2500
+mail.default_sender = services@localhost
 
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.
