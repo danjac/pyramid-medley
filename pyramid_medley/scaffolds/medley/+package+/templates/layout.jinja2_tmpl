@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
  
     <!-- Add custom CSS here -->
-    <link href="\{\{ request.static_url('{{project}}:static/css/{{project}}.css') \}\}" rel="stylesheet">
+    <link href="\{\{ '{{project}}:static/css/{{project}}.css'|static_url \}\}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -36,7 +36,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="\{\{ request.route_url('home') \}\}">{{project}}</a>
+          <a class="navbar-brand" href="\{\{ 'home'|route_url \}\}">{{project}}</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -48,10 +48,10 @@
 
           <ul class="nav navbar-nav pull-right">
             {% if request.user %}
-            <li><a href="\{\{ request.route_url('logout') \}\}">Logout</a></li>
+            <li><a href="\{\{ 'logout'|route_url \}\}">Logout</a></li>
             {% else %}
-            <li{% if active_tab=='login' %} class="active"{% endif %}><a href="\{\{ request.route_url('login') \}\}">Login</a></li>
-            <li{% if active_tab=='signup' %} class="active"{% endif %}><a href="\{\{ request.route_url('signup') \}\}">Signup</a></li>
+            <li{% if active_tab=='login' %} class="active"{% endif %}><a href="\{\{ 'login'|route_url \}\}">Login</a></li>
+            <li{% if active_tab=='signup' %} class="active"{% endif %}><a href="\{\{ 'signup'|route_url \}\}">Signup</a></li>
             {% endif %}
           </ul>
 
@@ -94,7 +94,7 @@
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="\{\{ request.static_url('{{project}}:static/js/{{project}}.js') \}\}"></script>
+    <script src="\{\{ '{{project}}:static/js/{{project}}.js'|static_url \}\}"></script>
 
   </body>
 </html>

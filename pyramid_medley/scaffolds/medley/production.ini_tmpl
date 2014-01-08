@@ -28,6 +28,9 @@ pyramid.includes =
 
 jinja2.directories = {{project}}:templates
 jinja2.i18n.domain = {{project}}
+jinja2.filters =
+    route_url = pyramid_jinja2.filters:route_url_filter
+    static_url = pyramid_jinja2.filters:static_url_filter
 
 # Assets
 

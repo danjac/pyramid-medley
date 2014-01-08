@@ -40,6 +40,21 @@ def format_decimal(context, value, format=None):
 
 
 @jinja2.contextfilter
+def storage_url(context, value):
+    return context['request'].storage.url(value)
+
+
+@jinja2.contextfilter
+def has_permission(context, permission, *args):
+    return context['request'].has_permission(permission, *args)
+
+
+@jinja2.contextfilter
+def paginate(context, collection, **kwargs):
+    return context['request'].paginate(collection, **kwargs)
+
+
+@jinja2.contextfilter
 def jsonify(context, value):
     if hasattr(value, '__json__'):
         value = value.__json__(context['request'])
