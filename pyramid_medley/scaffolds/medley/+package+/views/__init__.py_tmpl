@@ -1,0 +1,10 @@
+from pyramid.view import view_config
+
+#from .i18n import _
+#from . import forms, models, mailers
+
+
+@view_config(route_name='home',
+             renderer='home.jinja2')
+def home(request):
+    return {}

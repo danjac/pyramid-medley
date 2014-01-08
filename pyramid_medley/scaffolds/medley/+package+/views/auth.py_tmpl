@@ -1,24 +1,9 @@
 from pyramid.security import NO_PERMISSION_REQUIRED, remember, forget
 from pyramid.exceptions import NotFound
-from pyramid.view import view_config, forbidden_view_config
+from pyramid.view import view_config
 
-from .config.i18n import _
+from .i18n import _
 from . import forms, models, mailers
-
-
-@view_config(route_name='home',
-             renderer='home.jinja2')
-def home(request):
-    return {}
-
-
-@forbidden_view_config(renderer='login.jinja2')
-def forbidden(request):
-    form = forms.LoginForm(request, action=request.route_url('login'))
-    request.session.flash(
-        request.localizer.translate(
-            _("Sorry, you're not allowed to do that")), 'warning')
-    return {'form': form}
 
                                    
 @view_config(route_name='login',
