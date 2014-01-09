@@ -7,7 +7,7 @@
 use = egg:{{project}}
 
 # this is example: better to use ENV setting {{project.upper()}}_SECRET
-# {{project}}.secret = {{random_string}}
+{{project}}.secret = {{random_string}}
 
 pyramid.reload_templates = false
 pyramid.debug_authorization = false
@@ -23,8 +23,25 @@ pyramid.includes =
     pyramid_exclog
 
 # requires psycopg2
-# # this is example: better to use ENV setting {{project.upper()}}_SQLALCHEMY_URL
 #sqlalchemy.url = postgresql://postgres:mypassword@localhost/{{project}}
+
+# Sessions
+redis.sessions.secret = {{random_string}}
+redis.sessions.timeout = 1200
+redis.sessions.cookie_name = {{project}_session
+redis.sessions.cookie_max_age = 3600
+redis.sessions.cookie_path = /
+redis.sessions.cookie_domain =
+redis.sessions.cookie_secure = False
+redis.sessions.cookie_httponly = False
+redis.sessions.cookie_on_exception = True
+redis.sessions.host = localhost
+redis.sessions.port = 6379
+redis.sessions.db = 0
+#redis.sessions.username = 
+#redis.sessions.password = 
+redis.sessions.prefix = {{project}}
+
 
 jinja2.directories = {{project}}:templates
 jinja2.i18n.domain = {{project}}
@@ -46,11 +63,17 @@ webassets.cache_max_age=3600
 
 # Cache
 
-# requires python-memcached
-cache.backend = dogpile.cache.memcached
+# Redis caching
+cache.backend = dogpile.cache.redis
 cache.expires = 3600
-cache.arguments.url = 127.0.0.1:11211
+cache.arguments.redis_expiration_time = 3601
+cache.arguments.distributed_lock = true
 
+# Memcached
+# requires python-memcached
+#cache.backend = dogpile.cache.memcached
+#cache.expires = 3600
+#cache.arguments.url = 127.0.0.1:11211
 
 # File storage
 storage.base_path = %(here)s/{{project}}/static/uploads

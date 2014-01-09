@@ -20,6 +20,7 @@ pyramid.includes =
     pyramid_mailer
     pyramid_storage
     pyramid_webassets
+    pyramid_redis_sessions
 
 
 jinja2.directories = {{project}}:templates
@@ -29,6 +30,23 @@ jinja2.filters =
     static_url = pyramid_jinja2.filters:static_url_filter
 
 sqlalchemy.url = sqlite:///%(here)s/{{project}}.sqlite
+
+# Sessions
+redis.sessions.secret = {{random_string}}
+redis.sessions.timeout = 1200
+redis.sessions.cookie_name = {{project}_session
+redis.sessions.cookie_max_age = 3600
+redis.sessions.cookie_path = /
+redis.sessions.cookie_domain =
+redis.sessions.cookie_secure = False
+redis.sessions.cookie_httponly = False
+redis.sessions.cookie_on_exception = True
+redis.sessions.host = localhost
+redis.sessions.port = 6379
+redis.sessions.db = 0
+#redis.sessions.username = 
+#redis.sessions.password = 
+redis.sessions.prefix = {{project}}
 
 # Assets
 
@@ -43,6 +61,12 @@ webassets.cache_max_age=3600
 
 # Caching
 cache.backend = dogpile.cache.memory
+
+# Redis caching
+#cache.backend = dogpile.cache.redis
+#cache.expires = 3600
+#cache.arguments.redis_expiration_time = 3601
+#cache.arguments.distributed_lock = true
 
 # SMTP
 # test in cli with this command
