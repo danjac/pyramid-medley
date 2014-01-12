@@ -50,6 +50,8 @@ redis.sessions.prefix = {{project}}
 
 # Assets
 
+# if you want assets to be separate from static dir
+# webassets.assets_dir=%(here)s/{{project}}/assets
 webassets.base_dir=%(here)s/{{project}}/static
 webassets.base_url=/static
 webassets.debug=True
