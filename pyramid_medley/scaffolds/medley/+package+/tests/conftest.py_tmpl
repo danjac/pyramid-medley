@@ -27,11 +27,4 @@ def pytest_funcarg__db(request):
 
 
 def pytest_funcarg__app(request):
-    app = TestApp(get_app('test.ini'))
-
-    def _finalize():
-        global app
-        app = None
-
-    request.addfinalizer(_finalize)
-    return app
+    return TestApp(get_app('test.ini'))
