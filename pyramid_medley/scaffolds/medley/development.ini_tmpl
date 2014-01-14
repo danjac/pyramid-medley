@@ -34,7 +34,7 @@ sqlalchemy.url = sqlite:///%(here)s/{{project}}.sqlite
 # Sessions
 redis.sessions.secret = {{random_string}}
 redis.sessions.timeout = 1200
-redis.sessions.cookie_name = {{project}_session
+redis.sessions.cookie_name = {{project}}_session
 redis.sessions.cookie_max_age = 3600
 redis.sessions.cookie_path = /
 redis.sessions.cookie_domain =
