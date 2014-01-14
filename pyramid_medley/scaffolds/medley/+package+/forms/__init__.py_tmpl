@@ -18,6 +18,9 @@ from ..i18n import _
 from .base import SecureForm
 
 
+MIN_PASSWORD_LENGTH = 6
+
+
 class LoginForm(SecureForm):
 
     email = StringField(_("Email address"), [Email()])
@@ -26,15 +29,22 @@ class LoginForm(SecureForm):
 
 
 class SignupForm(SecureForm):
-    first_name = StringField(_("First name"), [DataRequired()])
-    last_name = StringField(_("Last name"), [DataRequired()])
+    username = StringField(_("Username"), [
+        DataRequired(),
+        Unique(User.username),
+    ])
     email = StringField(_("Email address"), [
         Email(),
         Unique(User.email),
     ])
-    password = PasswordField(_("Password"), [DataRequired(), Length(min=6)])
+    password = PasswordField(
+        _("Password"), [
+            DataRequired(),
+            Length(min=MIN_PASSWORD_LENGTH)
+        ]
+    )
     password_confirm = PasswordField(
-        _("Password confirm"), 
+        _("Password confirm"),
         [EqualTo('password')]
     )
     submit = SubmitField(_("Signup"))
@@ -46,6 +56,14 @@ class ForgotPasswordForm(SecureForm):
 
 
 class ChangePasswordForm(SecureForm):
-    password = PasswordField("Password", [DataRequired(), Length(min=6)])
-    password_confirm = PasswordField("Password confirm", [EqualTo('password')])
-    submit = SubmitField("Signup")
+    password = PasswordField(
+        _("Password"), [
+            DataRequired(),
+            Length(min=MIN_PASSWORD_LENGTH)
+        ]
+    )
+    password_confirm = PasswordField(
+        _("Password confirm"),
+        [EqualTo('password')]
+    )
+    submit = SubmitField("Signup")class ChangePasswordForm(SecureForm):

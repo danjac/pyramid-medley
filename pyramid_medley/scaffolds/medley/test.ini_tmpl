@@ -1,0 +1,147 @@
+###
+# app configuration
+# http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/environment.html
+###
+
+[app:main]
+use = egg:{{project}}
+
+{{project}}.secret = {{random_string}}
+
+pyramid.reload_templates = true
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.default_locale_name = en
+pyramid.includes =
+    pyramid_tm
+    pyramid_jinja2
+    pyramid_mailer
+    pyramid_storage
+    pyramid_webassets
+    pyramid_redis_sessions
+
+
+jinja2.directories = {{project}}:templates
+jinja2.i18n.domain = {{project}}
+jinja2.filters =
+    route_url = pyramid_jinja2.filters:route_url_filter
+    static_url = pyramid_jinja2.filters:static_url_filter
+
+sqlalchemy.url = sqlite://
+
+# Sessions
+redis.sessions.secret = {{random_string}}
+redis.sessions.timeout = 1200
+redis.sessions.cookie_name = {{project}_session_test
+redis.sessions.cookie_max_age = 3600
+redis.sessions.cookie_path = /
+redis.sessions.cookie_domain =
+redis.sessions.cookie_secure = False
+redis.sessions.cookie_httponly = False
+redis.sessions.cookie_on_exception = True
+redis.sessions.host = localhost
+redis.sessions.port = 6379
+redis.sessions.db = 0
+#redis.sessions.username = 
+#redis.sessions.password = 
+redis.sessions.prefix = {{project}}_test
+
+# Assets
+
+webassets.base_dir=%(here)s/{{project}}/static
+webassets.base_url=/static
+webassets.debug=True
+webassets.updater=always
+webassets.cache=False
+webassets.url_expire=False
+webassets.static_view=True
+webassets.cache_max_age=3600
+
+# Caching
+cache.backend = dogpile.cache.memory
+
+# Redis caching
+#cache.backend = dogpile.cache.redis
+#cache.expires = 3600
+#cache.arguments.redis_expiration_time = 3601
+#cache.arguments.distributed_lock = true
+
+# SMTP
+# test in cli with this command
+# python -m smtpd -n -c DebuggingServer localhost:2500
+mail.host = localhost
+mail.port = 2500
+mail.default_sender = services@localhost
+
+# By default, the toolbar only appears for clients from IP addresses
+# '127.0.0.1' and '::1'.
+# debugtoolbar.hosts = 127.0.0.1 ::1
+
+# File storage
+storage.base_path = %(here)s/{{project}}/test_uploads
+storage.base_url = /static/uploads/
+
+[pshell]
+models = {{project}}.models
+session = {{project}}.models.DBSession
+transaction = transaction
+#setup = {{project}}.pshell
+
+###
+# wsgi server configuration
+###
+[server:main]
+use = egg:waitress#main
+host = 0.0.0.0
+port = 6543
+
+
+###
+# Alembic configuration
+# https://alembic.readthedocs.org/en/latest/tutorial.html#editing-the-ini-file
+###
+
+[alembic]
+# path to migration scripts; we use a package resource specification here
+script_location = {{project}}:alembic
+
+###
+# logging configuration
+# http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/logging.html
+###
+
+[loggers]
+keys = root, {{project}}, sqlalchemy
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[logger_{{project}}]
+level = DEBUG
+handlers =
+qualname = {{project}}
+
+[logger_sqlalchemy]
+level = INFO
+handlers =
+qualname = sqlalchemy.engine
+# "level = INFO" logs SQL queries.
+# "level = DEBUG" logs SQL queries and results.
+# "level = WARN" logs neither.  (Recommended for production systems.)
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s
