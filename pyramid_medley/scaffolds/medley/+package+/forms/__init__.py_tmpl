@@ -51,8 +51,8 @@ class SignupForm(SecureForm):
 
 
 class ForgotPasswordForm(SecureForm):
-    email = StringField("Email address", [Email()])
-    submit = SubmitField("Send")
+    email = StringField(_("Email address"), [Email()])
+    submit = SubmitField(_("Send"))
 
 
 class ChangePasswordForm(SecureForm):
@@ -66,4 +66,4 @@ class ChangePasswordForm(SecureForm):
         _("Password confirm"),
         [EqualTo('password')]
     )
-    submit = SubmitField("Signup")class ChangePasswordForm(SecureForm):
+    submit = SubmitField(_("Signup"))
