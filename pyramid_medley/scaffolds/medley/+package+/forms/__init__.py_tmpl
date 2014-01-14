@@ -13,7 +13,7 @@ from wtforms.validators import (
 
 from wtforms.ext.sqlalchemy.validators import Unique
 
-from ..models import User
+from .. import models
 from ..i18n import _
 from .base import SecureForm
 
@@ -35,7 +35,7 @@ class SignupForm(SecureForm):
 
     email = StringField(_("Email address"), [
         Email(),
-        Unique(User.email),
+        Unique(models.DBSession, models.User, 'email'),
     ])
     password = PasswordField(
         _("Password"), [
