@@ -60,7 +60,7 @@ def forgot_password(request):
     if form.handle():
         user = models.User.query.filter_by(email=form.email.data).first()
         if user:
-            user.renew_verification_code()
+            user.reset_verification_code()
             request.messages.success(
                 _('Check your email for your verification code'))
             request.mailer.send(mailers.forgot_password(request, user))

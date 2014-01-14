@@ -35,7 +35,7 @@ class SignupForm(SecureForm):
 
     email = StringField(_("Email address"), [
         Email(),
-        Unique(models.DBSession, models.User, 'email'),
+        Unique(models.DBSession, models.User, models.User.email),
     ])
     password = PasswordField(
         _("Password"), [
