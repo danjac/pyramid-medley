@@ -11,7 +11,7 @@ from wtforms.validators import (
     Length,
 )
 
-from wtforms_alchemy import Unique
+from wtforms.ext.sqlalchemy import Unique
 
 from ..models import User
 from ..i18n import _
