@@ -12,7 +12,6 @@ The scaffolding also includes some extra goodies for example:
 * Templated emails 
 * Basic User model
 * Caching and sessions (Redis)
-* Simple cronjobs
 
 This scaffold is probably more than is required for most projects : it's just a ton of patterns and ideas I've picked up playing 
 around with the Pyramid stack. 
