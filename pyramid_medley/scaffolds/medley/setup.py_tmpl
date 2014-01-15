@@ -22,7 +22,6 @@ requires = [
     'alembic',
     'dogpile.cache',
     'WTForms==2.0dev',
-    'schedule',
     'bcrypt',
     'pytest',
     'pytest-cov',
@@ -68,6 +67,5 @@ setup(name='{{project}}',
       main = {{package}}:main
       [console_scripts]
       initialize_{{project}}_db = {{package}}.scripts.initializedb:main
-      run_{{project}}_crons = {{package}}.scripts.crons:main
       """,
       )
