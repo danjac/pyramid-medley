@@ -10,11 +10,6 @@ def not_found(request):
     return {}
 
 
-@forbidden_view_config(renderer='login.jinja2')
-def forbidden(request):
-    form = forms.LoginForm(request, action=request.route_url('login'))
-    request.session.flash(
-        request.localizer.translate(
-            _("Sorry, you're not allowed to do that")), 'warning')
+@forbidden_view_config(renderer='403.jinja2')
     request.response.status_int = 403
-    return {'form': form}
+    return {}
